@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Quiz.js</title>
+    <style>
+        body {
+            margin: 1rem auto;
+            padding: 3rem;
+            font-family: sans-serif;
+        }
+        header {
+            width: 50%;
+            margin: 1em auto;
+        }
+        main {
+            min-width: 25rem;
+            max-width: 50%;
+            margin: 0px auto;
+            display:flex; 
+            flex-direction: column;
+        }
+        #statement {
+            border: 1px solid black;
+            border-radius: 0.5rem;
+            box-shadow: 5px 5px 5px gray;
+            padding: 1rem;
+            font-size: x-large;
+            text-align: center;
+            margin: 1rem 0px;
+            min-height: 2em;
+        }
+        #explanation {
+            padding: 1rem;
+            text-align: center;
+        }
+        #options {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        button {
+            padding: 0.5rem;
+            font-size: medium;
+            border-radius: 5px;
+        }
+        
+        .makevisible{
+            display: initial;
+        }
+        .makeInvisible{
+            display: none;
+        }
+
+        
+        .correct {
+            background-color: lightgreen;
+        }
+        .incorrect {
+            background-color: lightpink;
+        }
+    </style>
+  </head>
+  <body>
+    <header>
+    <h1>Quiz.js</h1>
+    <p>Do you know JS? Find out!</p>
+    </header>
+
+    <main>
+    <div id="statement">
+        
+    </div>
+
+    <div id="options">
+        <button name="true" value="true">true</button>
+        <button name="false" value="false">false</button>
+    </div>
+
+    <div id="explanation">
+
+    </div>
+
+    <div id="nextQuestion"><button name="next" value="nextquestion">Next Question</button></div>
+
+    </main>
+
+  
+
+  <script type="text/javascript">
+
+
+    let counter=0;
+    const statment = document.getElementById("statement");
+    const button = document.getElementById("options").children;
+    const expalnation = document.querySelector("#explanation");
+    const nextButton = document.getElementById("nextQuestion").children[0];
+
+   
+    
+
+  
+    
+    let fact =[ 
+        {statment:"was javascript developed in the year 1995?",
+        answer: true,
+        explanation: "the Language javascript was developed in the year 1995 by Jan Hoskey"
+        },
+        {statment:"'1' + '1' === '2'? ",
+        answer: false,
+        explanation: "The plus operator concatenates (joins together) strings, so '1' + '1' === '11'."   
+        },
+        {statment:"typeof ['J', 'S'] === 'array'",
+        answer: false,
+        explanation: "Arrays have the type 'object'. In JS, everything is either a primitive data type (e.g. 'string', 'number') or an object. Arrays are a kind of object with some special properties. "
+        },
+        {statment:"'1' + '1' == '2'? ",
+        answer: true,
+        explanation: "yes with loosey equals The plus operator concatenates (joins together) strings, so '1' + '1' == '2'."   
+        },
+    ];
+
+
+    statment.textContent = fact[0].statment;
+    
+    
+
+
+        buttonDis(nextButton);
+   
+    
+    function buttonDis(button){
+        button.setAttribute("disabled","")
+    };
+
+    const enableButton = (button) => button.removeAttribute("disabled");
+
+
+    // 
+
+    function isCorrect(guess){
+        
+
+        if (guess === fact[counter].answer.toString()){
+            return true
+        }else {return false};
+    
+    };  //
+
+    
+   
+
+        // true or false button logic
+        for (let k of button){
+            k.addEventListener('click', (Event) =>{
+
+                if (counter === fact.length-1  ){ 
+                expalnation.textContent = fact[counter].explanation;
+                nextButton.textContent = "No More Questions";
+                counter =0; 
+                buttonDis(nextButton);
+                
+                for (let k of button){
+                buttonDis(k);
+                }
+
+                if(isCorrect(k.value)){
+                    k.classList.add("correct");
+                    }else{k.classList.add("incorrect")}
+                
+                
+
+            }else{    
+                expalnation.textContent = fact[counter].explanation;
+
+                enableButton(nextButton);
+
+                for (let k of button){
+                buttonDis(k); 
+                }
+
+                if (isCorrect(k.value)){ 
+                    k.classList.add("correct");
+                    }else{k.classList.add("incorrect")}
+                }
+            
+            })
+        }
+
+        nextButton.addEventListener("click", ()=>{
+            counter+=1;
+            expalnation.textContent = "";
+
+            for (let k of button){
+            k.classList.remove("correct");
+            k.classList.remove("incorrect");
+            enableButton(k); 
+            }
+            statment.textContent = fact[counter].statment;
+            
+
+        });
+        
+        
+
+        // 
+
+
+  </script>
+
+</body></html>
